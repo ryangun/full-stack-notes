@@ -1,2 +1,7 @@
-# notes
-读书笔记/学习笔记/备忘录
+# full-stack-notes
+
+全栈读书笔记
+
+- [模块化](module.md)
+- [数据交互](data-integration.md)
+
