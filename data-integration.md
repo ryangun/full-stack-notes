@@ -140,8 +140,8 @@ window.onload = function() {
 
 - 安全、跨域、双工
 
-自我要求：
-1、读、写 [https://tools.ietf.org/html/rfc2616](https://tools.ietf.org/html/rfc2616)
-2、解释http状态——20个
-3、了解ajax2.0
-4、了解RESTful
+__自我要求__
+- 1.读、写 [https://tools.ietf.org/html/rfc2616](https://tools.ietf.org/html/rfc2616)
+- 2.解释http状态——20个
+- 3.了解ajax2.0
+- 4.了解RESTful
