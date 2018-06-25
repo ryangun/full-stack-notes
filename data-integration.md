@@ -87,48 +87,48 @@ XMLHttpRequest
 ``` html
 <input type="button" value="按钮" id="btn" />
 window.onload = function() {
-	  let btn = document.getElementById('btn');
-	  btn.onclick = function() {
-	      // 1.创建对象
-	      let xhr = new XMLHttpRequest();
-	      console.log('xhr对象创建完', xhr.readyState) // 0
+  let btn = document.getElementById('btn');
+  btn.onclick = function() {
+      // 1.创建对象
+      let xhr = new XMLHttpRequest();
+      console.log('xhr对象创建完', xhr.readyState) // 0
 
-	      // 2.连接：true异步，false同步
-	      xhr.open('GET', 'data/1.txt', true)
-	      console.log('已连接服务器', xhr.readyState) // 1
+      // 2.连接：true异步，false同步
+      xhr.open('GET', 'data/1.txt', true)
+      console.log('已连接服务器', xhr.readyState) // 1
 
-	      // 3.发送
-	      xhr.send();
+      // 3.发送
+      xhr.send();
 
-	      // 4.接受：当通信状态改变
-	      xhr.onreadystatechange = function() {
-	          if (xhr.readyState == 2) {
-	              console.log('send完', xhr.readyState)
-	          } else if (xhr.readyState == 3) {
-	              console.log('头接收完', xhr.readyState)
-	          } else if (xhr.readyState == 4) {
-	              console.log('body接收完，但是能否成功返回内容尚未可知，需要判断状态码', xhr.readyState)
-	              if (xhr.status >= 200 && xhr.status < 300 || xhr.status == 304) {
-                    console.log('成功', xhr.status);
-                    console.log(xhr);
+      // 4.接受：当通信状态改变
+      xhr.onreadystatechange = function() {
+          if (xhr.readyState == 2) {
+              console.log('send完', xhr.readyState)
+          } else if (xhr.readyState == 3) {
+              console.log('头接收完', xhr.readyState)
+          } else if (xhr.readyState == 4) {
+              console.log('body接收完，但是能否成功返回内容尚未可知，需要判断状态码', xhr.readyState)
+              if (xhr.status >= 200 && xhr.status < 300 || xhr.status == 304) {
+                  console.log('成功', xhr.status);
+                  console.log(xhr);
 
-                    let json = null;
-                    try {
-                        json = JSON.parse(xhr.responseText);
-                    } catch (e) {
-                        json = eval('(' + xhr.responseText + ')');
-                    }
-                    console.log(json);
-                    // 读取data/2.xml 
-                   	// console.log(xhr.responseXML);
-                    // let p = xhr.responseXML.getElementsByTagName('person')[0];
-                    // console.log(p.children);
-                } else {
-                    console.log('失败', xhr.status);
-                }
-	          }
-	      }
-	  }
+                  let json = null;
+                  try {
+                      json = JSON.parse(xhr.responseText);
+                  } catch (e) {
+                      json = eval('(' + xhr.responseText + ')');
+                  }
+                  console.log(json);
+                  // 读取data/2.xml 
+                 	// console.log(xhr.responseXML);
+                  // let p = xhr.responseXML.getElementsByTagName('person')[0];
+                  // console.log(p.children);
+              } else {
+                  console.log('失败', xhr.status);
+              }
+          }
+      }
+  }
 }
 ```
 

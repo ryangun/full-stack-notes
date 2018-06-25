@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>实现一个promise</title>
+</head>
+
+<body>
+    <script src="https://storage.jd.com/jdc-op-fd/js/jquery-3.3.1.min.js"></script>
+    <script>
+    class Promise2 {
+        constructor(fn) {
+            const _this = this;
+            // 重点
+            this.__queue = [];
+
+            this.__succ_res = null;
+            this.__erro_res = null;
+            this.status = '';
+
+            fn(function(...arg) {
+                _this.__succ_res = arg;
+                _this.status = 'succ';
+
+                _this.__queue.forEach(json => {
+                    json.fn1(...arg);
+                })
+            }, function(...arg) {
+                _this.__erro_res = arg;
+                _this.status = 'error';
+
+                _this.__queue.forEach(json => {
+                    json.fn2(...arg);
+                })
+            });
+        }
+
+        then(fn1, fn2) {
+            if (this.status == 'succ') {
+                fn1(...this.__succ_res);
+            } else if (this.status == 'error') {
+                fn2(...this.__erro_res);
+            } else {
+                this.__queue.push({ fn1, fn2 })
+            }
+        }
+    }
+
+    Promise2.all = function(arr) {
+        let result = [];
+
+        return new Promise2((resolve, reject) => {
+            let i = 0;
+            let next = function() {
+                arr[i].then(function(res) {
+                    result.push(res);
+
+                    i++;
+                    if (i == arr.length) {
+                        resolve(result)
+                    } else {
+                        next();
+                    }
+                }, function(res) {
+                    reject(res)
+                })
+            }
+            next();
+        })
+    }
+
+    let p = new Promise2((resolve, reject)=>{
+    	setTimeout(function(){
+    		resolve(15);
+    	}, 1000)
+    });
+    p.then((res)=>{
+    	console.log(res)
+    }, (res)=>{
+    	alert('失败')
+    })
+
+    Promise2.all([
+        $.ajax({ url: 'data/1.txt', dataType: 'json' }),
+        $.ajax({ url: 'data/2.txt', dataType: 'json' })
+    ]).then((arr) => {
+        console.log(arr);
+    }, (arr) => {
+        alert('失败')
+    })
+    </script>
+</body>
+
+</html>
