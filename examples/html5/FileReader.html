@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 上传图片显示出来例子 -->
+    <input type="file" id="file" />
+    <script>
+    var file = document.querySelector('#file');
+    file.onchange = function() {
+        console.dir(this)
+        // 获取上传的文件
+        var fl = this.files[0];
+        // 创建文件对象
+        var fReader = new FileReader();
+        // 读取文件
+        fReader.readAsDataURL(fl);
+        // 开始读取文件的加载事件
+        fReader.onload = function() {
+            // 获取读取文件的结果
+            var result = fReader.result;
+            var img = new Image();
+            img.src = result;
+            document.body.appendChild(img);
+        }
+    }
+    </script>
+</body>
+
+</html>

@@ -146,7 +146,7 @@ dataset.userHeight = '170'
 - onerror — 出错时触发
 
 ``` html
-// 上传图片显示出来例子
+<!-- 上传图片显示出来例子 -->
 <input type="file" id="file" />
 <script>
 var file = document.querySelector('#file');
