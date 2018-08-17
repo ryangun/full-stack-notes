@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Canvas基础</title>
+	<style>
+		canvas{
+			border: 1px solid red;
+		}
+	</style>
+</head>
+<body>
+	<canvas width="800" height="1000"></canvas>
+	<script>
+		// 获取画布上下文
+		var canvas = document.querySelector('canvas');
+		var ctx = canvas.getContext('2d');
+
+		// 画一条线
+		ctx.moveTo(100, 100);
+		ctx.lineTo(300, 100);
+		ctx.strokeStyle = 'red';
+		ctx.lineWidth = 10;
+		ctx.stroke();
+
+		// 再画一条线
+		// 重置路径，若不写这一条，两条线都是绿色
+		ctx.beginPath();
+		ctx.moveTo(100, 200);
+		ctx.lineTo(400, 200);
+		ctx.strokeStyle = 'green';
+		ctx.lineWidth = 10;
+		ctx.stroke();
+
+		// 线段连接样式1
+		ctx.beginPath();
+		ctx.moveTo(100, 300);
+		ctx.lineTo(300, 350);
+		ctx.lineTo(100, 400);
+		ctx.strokeStyle = 'red';
+		ctx.lineWidth = 10;
+		// ctx.lineJoin = 'miter'; //默认miter
+		// ctx.lineCap = 'butt'; //默认butt，平直边缘
+		ctx.stroke();
+
+		// 线段连接样式2
+		ctx.beginPath();
+		ctx.moveTo(300, 300);
+		ctx.lineTo(500, 350);
+		ctx.lineTo(300, 400);
+		ctx.strokeStyle = 'red';
+		ctx.lineWidth = 10;
+		ctx.lineJoin = 'round';
+		ctx.lineCap = 'round'; //添加圆形线帽
+		ctx.stroke();
+
+		// 线段连接样式3
+		ctx.beginPath();
+		ctx.moveTo(500, 300);
+		ctx.lineTo(700, 350);
+		ctx.lineTo(500, 400);
+		ctx.strokeStyle = 'red';
+		ctx.lineWidth = 10;
+		ctx.lineJoin = 'bevel';
+		ctx.lineCap = 'square'; //添加正方形线帽
+		ctx.stroke();
+
+		// 闭合路径，差最后一笔合并就用closePath()
+		// 画一个矩形
+		ctx.beginPath();
+		ctx.moveTo(500, 100);
+		ctx.lineTo(700, 100);
+		ctx.lineTo(700, 200);
+		ctx.lineTo(500, 200);
+		ctx.closePath();
+		ctx.strokeStyle = 'blue';
+		ctx.lineJoin = 'miter';
+		ctx.lineCap = 'butt';
+		ctx.stroke();
+
+		// 创建线性渐变
+		ctx.beginPath();
+		ctx.moveTo(100, 500);
+		ctx.lineTo(500, 500);
+		var lgd = ctx.createLinearGradient(100,500, 500, 500);
+		lgd.addColorStop(0, 'red');
+		lgd.addColorStop(0.2, 'green');
+		lgd.addColorStop(0.4, 'blue');
+		lgd.addColorStop(0.6, 'yellow');
+		lgd.addColorStop(0.8, 'gray');
+		lgd.addColorStop(1, 'pink');
+		ctx.strokeStyle = lgd;
+		ctx.stroke();
+
+		// 创建径向渐变
+		ctx.beginPath();
+		ctx.moveTo(200, 600);
+		ctx.lineTo(600, 600);
+		ctx.lineTo(600, 800);
+		ctx.lineTo(200, 800);
+		var rgd = ctx.createRadialGradient(400, 700, 50, 400, 700, 100);
+		rgd.addColorStop(0, 'red');
+		rgd.addColorStop(1, 'blue');
+		ctx.fillStyle = rgd;
+		ctx.fill();
+
+		// 创建文本
+		ctx.font = '50px 宋体';
+		ctx.strokeText('全网最帅', 300, 900);
+		ctx.fillText('全网最帅', 300, 900);
+	</script>
+</body>
+</html>

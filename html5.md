@@ -5,7 +5,7 @@
 - html:xt	— xhtml过渡版本
 - html:xs — xhtml严格版本
 - html:4t — html4松散版本
-- html:4s	— html4严格版本
+	 html:4s	— html4严格版本
 - html:5 — html5版本
 
 html5最主要的目的是为了在移动设备上支持多媒体，新特性：
@@ -180,7 +180,7 @@ navigator.onLine: 返回一个布尔值，true网络在线，flase网络不在�
 - window.ononline: 用户网络连接时被调用
 - window.onoffline: 用户网络断开时被调用
 
-### 获取地理位置
+### 地理位置
 
 #### 获取当地地理信息
 
@@ -190,13 +190,15 @@ navigator.geolocation.getCurrentPosition(successCallback, errorCallback)
 
 #### 实时获取地理信息
 
+Chrome、IOS10等已不再支持非安全域的浏览器定位请求，Firefox要翻墙才能请求，目前的解决方案是使用百度地图、高德地图或者微信API。
+
 ``` js
 navigator.geolocation.watchPosition(successCallback, errorCallback)
 ```
 
 #### 回调参数
 
-```` js
+``` js
 function successCallback(position){
 	console.log(position.coords.latitude) //纬度
 	console.log(position.coords.longitude) //经度
@@ -207,3 +209,90 @@ function errorCallback(msg){
 	console.log(msg)
 }
 ```
+
+### 本地存储
+
+传统的document.cookie存储大小只有4k左右，解析也相当复杂。HTML5本地存储的特性：
+
+- 有设置、读取方法；
+- 容量较大；
+- 能存储字符窜。
+
+#### sessionStorage:
+
+- 生命周期为关闭浏览器窗口；
+- 只能在同一窗口下共享数据；
+- 容量约为5M；
+
+#### localStorage
+
+- 永久生效，除非手动删除；
+- 可以多窗口共享数据；
+- 容量约为20M。
+
+``` js
+// 设置session
+window.sessionStorage.setItem('name', '帅哥');
+window.sessionStorage.setItem('age', '18');
+window.sessionStorage.setItem('sex', '男');
+
+// 读取session
+var name = window.sessionStorage.getItem('name');
+var age = window.sessionStorage.getItem('age');
+var sex = window.sessionStorage.getItem('sex');
+console.log(name); //帅哥
+console.log(age); //18
+console.log(sex); //男
+
+// 删除session键及键名
+window.sessionStorage.removeItem('sex');
+console.log(window.sessionStorage.getItem('sex')); //null
+
+// 清除sesstion
+window.sessionStorage.clear();
+```
+
+## Canvas
+
+推荐一个有意思的学习网站：[http://canvas.migong.org/](http://canvas.migong.org/)
+
+### 基础API
+
+- beginPath()
+- closePath()
+- moveTo(x, y)
+- lineTo(x, y)
+- lineWidth
+- lineJoin — miter、round、bevel
+- lineCap — butt、round、square
+- strokeStyle
+- stroke()
+- fillStyle
+- fill()
+- font
+- textAlign
+- textBaseline
+- shadowColor
+- shadowOffsetX
+- shadowOffsetY
+- shadowBlur
+- rect(x1, y1, x2, y2);
+- fillRect(x1, y1, x2, y2)
+- strokeRect(x1, y1, x2, y2)
+- arc(x, y, radius, sAngle, eAngle, [counterclockwise]);
+- createLinearGradient(x1, y1, x2, y2)
+- createRadialGradient(x1, y1, radius1 x2, y2, radius2)
+- addColorStop(0, '#f00')、addColorStop(1, '#0f0')
+- setLineDash([线段长度, 线段间距])，参数为奇数个会自动复制一份成为偶数
+- drawImage(图片对象, 图片选择的x坐标, 图片选择的y坐标, 图片的宽, 图片的高, 绘图的x坐标, 绘图的y坐标, 绘图的宽, 绘图的高)
+- translate(x, y)
+- scale(0.5, 1)
+- rotate(Math.PI/2)
+
+### 非零环绕规则
+
+<img src="https://img20.360buyimg.com/cms/jfs/t22828/352/930212759/154363/4ef12fc/5b487da6N1888516f.png" width="500" />
+
+非零环绕规则：对于路径中指定范围区域，从该区域内部画一条足够长的线段，使此线段的完全落在路径范围之外。
+
+非零环绕规则计数器：然后，将计数器初始化为0，每当这个线段与路径上的直线或曲线相交时，就改变计数器的值，如果是与路径顺时针相交时，那么计数器就加1， 如果是与路径逆时针相交时，那么计数器就减1。如果计数器始终不为0，那么此区域就在路径范围里面，在调用fill()方法时，浏览器就会对其进行填充。如果最终值是0，那么此区域就不在路径范围内，浏览器就不会对其进行填充。

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>WebStorage</title>
+</head>
+
+<body>
+    <script>
+    // 设置session
+    window.sessionStorage.setItem('name', '帅哥');
+    window.sessionStorage.setItem('age', '18');
+    window.sessionStorage.setItem('sex', '男');
+
+    // 读取session
+    var name = window.sessionStorage.getItem('name');
+    var age = window.sessionStorage.getItem('age');
+    var sex = window.sessionStorage.getItem('sex');
+    console.log(name);
+    console.log(age);
+    console.log(sex);
+
+    // 删除session键及键名
+    window.sessionStorage.removeItem('sex');
+    console.log(window.sessionStorage.getItem('sex'));
+
+    // 清除sesstion
+    window.sessionStorage.clear();
+    </script>
+</body>
+
+</html>

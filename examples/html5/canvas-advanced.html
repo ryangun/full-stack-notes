@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Canvas进阶</title>
+	<style>
+		canvas{
+			border: 1px solid red;
+		}
+	</style>
+</head>
+<body>
+	<canvas width="600" height="800"></canvas>
+	<script>
+		var canvas = document.querySelector('canvas');
+		var ctx = canvas.getContext('2d');
+
+		ctx.moveTo(300, 0);
+		ctx.lineTo(300, 200);
+		ctx.stroke();
+
+		ctx.beginPath();
+
+		ctx.moveTo(0, 100);
+		ctx.lineTo(600, 100);
+		ctx.stroke();
+
+		// 绘制文本
+		ctx.font = '50px 宋体';
+		ctx.textAlign = 'center';
+		ctx.textBaseline = 'middle';
+		ctx.shadowColor = 'red';
+		ctx.shadowOffsetX = 15;
+		ctx.shadowOffsetY = 5;
+		ctx.shadowBlur = 5;
+
+		ctx.strokeText('全网最帅', 300, 100);
+		ctx.fillText('全网最帅', 300, 100);
+
+		// 绘制图片
+		var img = document.createElement('img');
+		img.src = 'img/1.jpg';
+		img.onload = function(){
+			// 图片对象，图片选择的x坐标，图片选择的y坐标，图片的宽，图片的高，绘图的x坐标，绘图的y坐标，绘图的宽，绘图的高
+			ctx.drawImage(img, 100, 100, 240, 260, 180, 220, 240, 240);
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Geolocation</title>
+</head>
+
+<body>
+		<script src="https://storage.jd.com/jdc-op-fd/js/zepto.js"></script>
+    <script>
+    navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+
+    function successCallback(position) {
+        console.log(position);
+    }
+
+    function errorCallback(msg) {
+        console.log(msg);
+    }
+    </script>
+</body>
+
+</html>

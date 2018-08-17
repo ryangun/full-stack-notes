@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Prototype</title>
+</head>
+<body>
+	<script>
+		function Person(){}
+
+		var p = new Person();
+
+		console.log(Person);
+		console.log(p);
+
+		console.log(Person.prototype.__proto__ === Object.prototype);
+	</script>
+</body>
+</html>
