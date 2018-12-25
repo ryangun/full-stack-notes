@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script src="./node_modules/vue/dist/vue.min.js"></script>
+    <script src="./node_modules/vue-router/dist/vue-router.min.js"></script>
+    <script>
+        // Vue.use(VueRouter);
+        const App = {
+            template: `
+                <div>
+                    <router-link :to="{name:'index'}">首页</router-link>
+                    <router-link :to="{name:'userP', params: {id: 1}}">用户1</router-link>
+                    <router-link :to="{name:'userQ', query: {userId: 2}}">用户2</router-link>
+                    <router-view></router-view>
+                </div>
+            `
+        }
+        const Index = {
+            template: '<div>我是首页</div>'
+        }
+        const Music = {
+            template: '<div @click="clickHandler">音乐分类</div>',
+            methods: {
+                clickHandler(e) {
+                    e.target.style.color = 'red'
+                }
+            }
+        }
+        const Movie = {
+            template: '<div>电影分类</div>'
+        }
+        const userParams = {
+            template: `<div>
+                我是用户1<br>
+                <router-link :to="{name:'music'}">音乐</router-link>
+                <router-link :to="{name:'movie'}">电影</router-link>
+                <keep-alive>
+                <router-view></router-view>
+                </keep-alive>
+            </div>`,
+            created() {
+                // console.log(this.$router)
+                // console.log(this.$route)
+            }
+        }
+        const userQuery = {
+            template: '<div>我是用户2</div>'
+        }
+        const Login = {
+            data() {
+                return {
+                    name: localStorage.getItem('user') && localStorage.getItem('user').name || '',
+                    pwd: localStorage.getItem('user') && localStorage.getItem('user').pwd || ''
+                }
+            },
+            template: `<div>
+                <input type="text" :value="name" v-model="name" />
+                <input type="password" :value="pwd" v-model="pwd" />
+                <button @click="loginHandler">登录</button>
+            </div> `,
+            methods: {
+                loginHandler() {
+                    localStorage.setItem('user', {
+                        name: this.name,
+                        pwd: this.pwd
+                    })
+
+                    //编程式路由（相对的是声明式路由）
+                    this.$router.push({
+                        name: 'userP'
+                    })
+
+                }
+            }
+        }
+        const router = new VueRouter({
+            routes: [{
+                path: '/login',
+                name: 'login',
+                component: Login
+            }, {
+                path: '/index',
+                name: 'index',
+                component: Index
+            }, {
+                path: '/user/:id',
+                name: 'userP',
+                component: userParams,
+                children: [{
+                    path: '/music',
+                    name: 'music',
+                    component: Music
+                }, {
+                    path: '/movie',
+                    name: 'movie',
+                    component: Movie
+                }],
+                meta: {
+                    auth: true
+                }
+            }, {
+                path: '/user',
+                name: 'userQ',
+                component: userQuery
+            }]
+        })
+
+        router.beforeEach((to, from, next) => {
+            console.log('to', to)
+            console.log('from', from)
+            if (to.meta.auth) {
+                if (localStorage.getItem('user')) {
+                    next();
+                } else {
+                    next({
+                        path: '/login'
+                    })
+                }
+            } else {
+                next();
+            }
+        })
+
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+
+                }
+            },
+            components: {
+                App
+            },
+            router,
+            template: '<App />'
+        })
+    </script>
+</body>
+
+</html>

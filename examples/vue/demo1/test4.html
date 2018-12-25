@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vue Router</title>
+  <style>
+    
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <script src="./node_modules/vue/dist/vue.min.js"></script>
+  <script src="./node_modules/vue-router/dist/vue-router.min.js"></script>
+  <script>
+    // window.onhashchange = function(){
+    //   console.log(location.hash)
+    //   var oDiv = document.getElementById('app');
+    //   switch(location.hash){
+    //     case '#/login': 
+    //       oDiv.innerHTML = '<h2>我是登录页面</h2>'
+    //       break;
+    //     case '#/register':
+    //       break;
+    //     default: 
+    //       break;
+    //   }
+    // }
+    var Login = {
+      template: `
+        <div>我是登录页面</div>
+      `
+    }
+    var Register = {
+      template: `
+        <div>我是注册页面</div>
+      `
+    }
+    var router = new VueRouter({
+      routes: [
+        {
+          path: '/login',
+          name: 'login',
+          component: Login
+        },
+        {
+          path: '/register',
+          name: 'register',
+          component: Register
+        }
+      ]
+    });
+    Vue.use(VueRouter);
+
+    var App = {
+      template: `
+        <div>
+          <router-link :to="{name: 'login'}">登录页面</router-link>
+          <router-link :to="{name: 'register'}">注册页面</router-link>
+          <router-view></router-view>
+        </div>
+      `
+    }
+    new Vue({
+      el: '#app',
+      data(){
+        return {
+
+        }
+      },
+      components: {
+        App
+      },
+      template: `
+        <App />
+      `,
+      router
+    })
+  </script>
+</body>
+</html>

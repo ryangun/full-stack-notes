@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script src="./node_modules/vue/dist/vue.min.js"></script>
+    <script src="./node_modules/axios/dist/axios.min.js"></script>
+    <script>
+        Vue.prototype.$axios = axios;
+        const App = {
+            data() {
+                return {
+                    isShow: false
+                }
+            },
+            template: `
+                <div>
+                    <div v-show="isShow">加载中。。。。</div>
+                    <button @click="sendGetRequest">发送get请求</button>
+                    <button @click="sendPostRequest">发送post请求</button>
+                </div>
+            `,
+            methods: {
+                sendGetRequest() {
+                    // 添加请求拦截器
+                    this.$axios.interceptors.request.use(config => {
+                        // 发送请求之前做点什么
+                        console.log(config)
+                        this.isShow = true;
+                        alert('发送请求之前做点什么')
+                        return config;
+                    }, err => {
+                        // 对请求错误做点什么
+                        return Promise.reject(err)
+                    })
+                    this.$axios.interceptors.response.use(res => {
+                        // 响应数据做点什么
+                        alert('响应数据之前做点什么')
+                        this.isShow = false;
+                        return res;
+                    }, err => {
+                        // 对响应错误做点什么
+                        return Promise.reject(err)
+                    })
+                    this.$axios.get('http://127.0.0.1:8888/')
+                        .then(res => {
+                            console.log(res.data)
+                        })
+                        .catch(err => {
+                            console.log(err)
+                        })
+                },
+                sendPostRequest() {
+                    this.$axios.post('http://127.0.0.1:8888/add', 'name=jerry', {
+                            transformRequest: [function(data) {
+                                console.log('请求之前', data)
+                                data = 'name=tom'
+                                console.log('请求之后', data)
+                                return data;
+                            }]
+                        })
+                        .then((res) => {
+                            console.log(res.data)
+                        }).catch(err => {
+                            console.log(err)
+                        })
+                }
+            }
+        }
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+
+                }
+            },
+            components: {
+                App
+            },
+            template: '<App />'
+        })
+    </script>
+</body>
+
+</html>

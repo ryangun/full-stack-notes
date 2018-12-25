@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>通过props往子组件通信</title>
+</head>
+<body>
+  <div id="app"></div>
+  <script type="text/javascript" src="./node_modules/vue/dist/vue.min.js"></script>
+  <script type="text/javascript">
+    Vue.component('Child', {
+      props: ['title'],
+      template: `
+        <div>
+          <p>我是一个孩子组件</p>
+          <input v-model="title" />
+        </div>
+      `
+    })
+
+    Vue.component('Parent', {
+      data(){
+        return {
+          msg: '我是父组件中的数据'
+        }
+      },
+      template: `
+        <div>
+          <p>我是一个父组件</p>
+          <Child :title="msg" />
+        </div>
+      `
+    })
+
+    //声子
+    var App = {
+      template: `
+        <div id="app">
+          <Parent />
+        </div>
+      `
+    }
+    var App = new Vue({
+      el: '#app',
+      data(){
+        return {
+          
+        }
+      },
+      components: {
+        //挂子
+        App
+      },
+      //用子
+      template: '<App />'
+    }) 
+  </script>
+</body>
+</html>

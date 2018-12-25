@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>全局与局部组建的创建</title>
+</head>
+
+<body>
+	<div id="app"></div>
+	<script type="text/javascript" src="./node_modules/vue/dist/vue.min.js"></script>
+	<script type="text/javascript">
+	//全局组建的创建
+	Vue.component('Button', {
+		template: `
+			<button class="btn-button">按钮</button>
+		`
+	})
+	//局部组建的创建
+	var Header = {
+		template: `
+			<div class="header">我是Header</div>
+		`
+	}
+	var SideBar = {
+		template: `
+			<div class="sidebar">我是SideBar</div>
+		`
+	}
+	var Content = {
+		data() {
+			return {
+
+			}
+		},
+		template: `
+			<div class="content">
+				我是Content
+				<Button />
+				<Button />
+				<Button />
+			</div>
+		`,
+		methods: {
+
+		}
+	}
+	var App = {
+		components: {
+			Header,
+			SideBar,
+			Content
+		},
+		template: `
+			<div id="app">
+				<Header />
+				<div class="container">
+					<SideBar />
+					<Content />
+				</div>
+			</div>
+		`
+	}
+	var app = new Vue({
+		el: '#app',
+		data() {
+			return {
+
+			}
+		},
+		components: {
+			App
+		},
+		template: `
+			<App />
+		`
+	})
+	console.log(app)
+	</script>
+</body>
+
+</html>

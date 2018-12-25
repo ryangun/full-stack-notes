@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>动态路由匹配</title>
+</head>
+<body>
+  <div id="app"></div>
+  <script src="./node_modules/vue/dist/vue.min.js"></script>
+  <script src="./node_modules/vue-router/dist/vue-router.min.js"></script>
+  <script>
+    var Timeline = {
+      template: `
+        <div id="timeline" @click="clickHandler">
+          <router-link :to="{name:'comDesc', params:{id:'frontend'}}">前端分类</router-link>
+          <router-link :to="{name:'comDesc', params:{id:'backend'}}">后端分类</router-link>
+          <router-view></router-view>
+        </div>
+      `,
+      methods: {
+        clickHandler(e){
+          e.target.style.color = 'red';
+        }
+      },
+    }
+    var Pins = {
+      template: '<div>我是沸点</div>'
+    }
+
+    var ComDesc = {
+      data(){
+        return {
+          msg: 'frontend'
+        }
+      },
+      template: `
+        <div>我是{{msg}}</div>
+      `,
+      watch: {
+        '$route': function(to, from){
+          console.log(to);
+          console.log(from);
+          this.msg = to.params.id;
+        }
+      }
+    }
+
+    var router = new VueRouter({
+      routes: [{
+        path: '/timeline',
+        component: Timeline,
+        children: [{
+          name: 'comDesc',
+          //动态路由参数
+          path: '/timeline/:id',
+          component: ComDesc
+        }]
+      },{
+        path: '/pins',
+        component: Pins
+      }]
+    })
+
+    var App = {
+      template: `
+        <div>
+          <router-link to="/timeline">首页</router-link>
+          <router-link to="/pins">沸点</router-link>
+          <keep-alive>
+            <router-view></router-view>
+          </keep-alive>
+        </div>
+      `
+    }
+
+    new Vue({
+      el: '#app',
+      router,
+      template: '<App />',
+      components: {
+        App
+      }
+    })
+  </script>
+</body>
+</html>

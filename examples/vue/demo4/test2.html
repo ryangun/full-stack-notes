@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script src="./node_modules/vue/dist/vue.min.js"></script>
+    <script src="./node_modules/axios/dist/axios.min.js"></script>
+    <script>
+        Vue.prototype.$axios = axios;
+        Vue.prototype.$axios.defaults.baseURL = 'http://127.0.0.1:8888';
+        const App = {
+            template: `
+                <div>
+                    <button @click="sendMultiRequest">发送并发请求</button>
+                </div>
+            `,
+            methods: {
+                sendMultiRequest() {
+                    let req1 = this.$axios.get('/');
+                    let req2 = this.$axios.post('/add', {
+                        username: 'jerry',
+                        password: '123'
+                    });
+                    this.$axios.all([req1, req2])
+                        .then(this.$axios.spread((res1, res2) => {
+                            console.log(res1.data)
+                            console.log(res2.data)
+                        }))
+                        .catch(err => {
+                            console.log(err)
+                        })
+                }
+            }
+        }
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+
+                }
+            },
+            components: {
+                App
+            },
+            template: '<App />'
+        })
+    </script>
+</body>
+
+</html>

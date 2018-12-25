@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>登录</title>
+    <link rel="stylesheet" href="./css/app.css" />
+</head>
+
+<body>
+
+    <form id="loginForm">
+        <p><input type="text" name="username" id="username"></p>
+        <p><input type="password" name="password" id="password"></p>
+        <p><button id="btnLogin">登录</button></p>
+    </form>
+    <script src="./js/jquery.js"></script>
+    <script>
+        $('#loginForm').on('submit', e => {
+            e.preventDefault();
+            var data = $(this).serialize();
+            $.ajax({
+                url: 'http://localhost:1234/login',
+                method: 'post',
+                data: data,
+                success(res) {
+                    console.log(res)
+                }
+            })
+        })
+    </script>
+</body>
+
+</html>

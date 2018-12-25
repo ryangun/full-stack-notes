@@ -1,0 +1,22 @@
+{
+  "name": "music_project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "art-template": "^4.13.0",
+    "captchapng2": "^1.0.3",
+    "koa": "^2.5.3",
+    "koa-art-template": "^1.1.1",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "koa-session": "^5.9.0",
+    "koa-static": "^5.0.0",
+    "mysql": "^2.16.0"
+  }
+}

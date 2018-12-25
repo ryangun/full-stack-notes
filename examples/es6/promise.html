@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Promise</title>
+</head>
+
+<body>
+    <button id="send">发请求</button>
+    <script>
+    //promise是一个容器（装）
+    //在装的过程中，需要记录成功与失败两个参数
+
+    function sendAjax(url) {
+        return new Promise(function(resolve, reject) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('get', url);
+            xhr.send();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState != 4) return false;
+                if (xhr.status === 200) {
+                    resolve(xhr.response);
+                } else {
+                    reject('请求失败')
+                }
+            }
+        })
+    }
+
+    var btn = document.getElementById('send');
+    btn.onclick = function(e) {
+        sendAjax('./1.json')
+            .then(function(data) {
+                console.log(data)
+                console.log('1.json请求完毕')
+                return sendAjax('./2.json')
+            })
+            .then(function(data) {
+                console.log(data)
+                console.log('2.json请求完毕')
+                return sendAjax('./3.json')
+            })
+            .then(function(data){
+            	console.log(data)
+            	console.log('3.json请求完毕')
+            })
+            .catch(function(err) {
+                console.log(err)
+            })
+    }
+    </script>
+</body>
+
+</html>
